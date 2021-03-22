@@ -1,7 +1,9 @@
 name: 同步 d12frosted/elpa-mirror
 
 on:
-  - push
+  push:
+  schedule:
+    - cron: "0 8 * * *"
 
 jobs:
   mirror:
@@ -9,8 +11,16 @@ jobs:
     steps:
       - name: Mirror
         run: |
-          echo "[$(date -Is)] cloning..."
-          git clone --bare https://github.com/d12frosted/elpa-mirror.git
-          echo "[$(date -Is)] cloning...done"
-          cd elpa-mirror.git
-          git push --mirror https://xuchunyang:$GITEE_TOKEN@gitee.com/xuchunyang/elpa-mirror.git
+          git clone https://xuchunyang:$GITEE_TOKEN@gitee.com/xuchunyang/elpa-mirror.git
+          cd elpa-mirror
+
+          git checkout --orphan mirror
+
+          git clone --depth 1 https://github.com/d12frosted/elpa-mirror.git
+          cd elpa-mirror
+          rm -rf .git
+          cd ..
+
+          git add .
+          git commit -m 'Update with github action'
+          git push --force origin mirror
