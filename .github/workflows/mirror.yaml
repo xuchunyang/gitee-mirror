@@ -1,0 +1,14 @@
+name: 同步 d12frosted/elpa-mirror
+
+on:
+  - push
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mirror
+        run: |
+          git clone --bare https://github.com/d12frosted/elpa-mirror.git
+          cd elpa-mirror.git
+          git push --mirror https://xuchunyang:$GITEE_TOKEN@gitee.com/xuchunyang/elpa-mirror.git
