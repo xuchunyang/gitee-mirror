@@ -9,13 +9,18 @@ jobs:
   mirror:
     runs-on: ubuntu-latest
     steps:
-      - name: Mirror
+      - name: Prepare
         run: |
           git clone https://xuchunyang:$GITEE_TOKEN@gitee.com/xuchunyang/elpa-mirror.git
           cd elpa-mirror
+          git remove -v
 
+      - name: Checkout
+        run: |
           git checkout --orphan mirror
 
+      - name: Add files
+        run: |
           git clone --depth 1 https://github.com/d12frosted/elpa-mirror.git
           cd elpa-mirror
           rm -rf .git
@@ -26,4 +31,9 @@ jobs:
 
           git add .
           git commit -m 'Update with github action'
-          git push --force origin mirror
+
+      - name: Push
+        run: |
+          git remote add gitee https://xuchunyang:$GITEE_TOKEN@gitee.com/xuchunyang/elpa-mirror.git
+          git remove -v
+          git push --force gitee mirror
