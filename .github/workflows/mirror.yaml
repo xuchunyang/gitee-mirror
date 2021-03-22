@@ -9,6 +9,11 @@ jobs:
   mirror:
     runs-on: ubuntu-latest
     steps:
+      - name: Setup git
+        run: |
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
+
       - name: Prepare
         run: |
           git clone https://xuchunyang:$GITEE_TOKEN@gitee.com/xuchunyang/elpa-mirror.git
@@ -31,9 +36,6 @@ jobs:
           cd elpa-mirror
           rm -rf .git
           cd ..
-
-          git config --global user.email "you@example.com"
-          git config --global user.name "Your Name"
 
           git add .
           git commit -m 'Update with github action'
