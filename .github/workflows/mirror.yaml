@@ -14,9 +14,15 @@ jobs:
           git clone https://xuchunyang:$GITEE_TOKEN@gitee.com/xuchunyang/elpa-mirror.git
           cd elpa-mirror
           git remote -v
+          date >> date.txt
+          git add .
+          git commit -m 'update'
+          git push
 
       - name: Checkout
         run: |
+          pwd
+          cd elpa-mirror
           git checkout --orphan mirror
 
       - name: Add files
