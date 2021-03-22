@@ -9,6 +9,8 @@ jobs:
     steps:
       - name: Mirror
         run: |
+          echo "[$(date -Is)] cloning..."
           git clone --bare https://github.com/d12frosted/elpa-mirror.git
+          echo "[$(date -Is)] cloning...done"
           cd elpa-mirror.git
           git push --mirror https://xuchunyang:$GITEE_TOKEN@gitee.com/xuchunyang/elpa-mirror.git
